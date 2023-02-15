@@ -157,7 +157,47 @@ class LinkedList<T> {
         }
     }
 
+    // find the index of a node with a given data
+    indexOf(data: T): number {
+        let current = this.head
+        let index = 0
+        while (current !== null) {
+            if (current.data === data) {
+                return index
+            }
+            current = current.next
+            ++index
+        }
+        return -1
+    }
+
+    // check if a node with a given data exists
+    contains(data: T): boolean {
+        return this.indexOf(data) !== -1
+    }
+
+    // convert the linked list to an array
+    toArray(): T[] {
+        const array: T[] = []
+        let current = this.head
+        while (current !== null) {
+            array.push(current.data)
+            current = current.next
+        }
+        return array
+    }
+
+    // clear the linked list
+    clear() {
+        this.head = null
+        this.tail = null
+        this.size = 0
+    }
+
+
 }
+
+
 
 
 
