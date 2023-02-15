@@ -8,7 +8,6 @@ class LinkedListNode<T> {
     }
 }
 
-
 class LinkedList<T> {
     head: LinkedListNode<T> | null
     tail: LinkedListNode<T> | null
@@ -187,6 +186,126 @@ class LinkedList<T> {
         return array
     }
 
+    // remove a node with a given data
+    remove(data: T): boolean {
+        const index = this.indexOf(data)
+        if (index === -1) {
+            return false
+        }
+        this.removeAt(index)
+        return true
+    }
+
+    // get the first node
+    getFirst(): LinkedListNode<T> | null {
+        return this.head
+    }
+
+    // get the last node
+    getLast(): LinkedListNode<T> | null {
+        return this.tail
+    }
+
+    // get the node at a given index
+    getNodeAt(index: number): LinkedListNode<T> | null {
+        if (index < 0 || index >= this.size) {
+            return null
+        }
+        let current = this.head
+        for (let i = 0; i < index; ++i) {
+            current = current!.next
+        }
+        return current
+    }
+
+    // reverse the linked list
+    reverse(): void {
+        let current = this.head
+        let previous = null
+        let next = null
+
+        while (current !== null) {
+            next = current.next
+            current.next = previous
+            previous = current
+            current = next
+        }
+        this.tail = this.head
+        this.head = previous
+    }
+
+    // swap two nodes
+    swapNodes(index1: number, index2: number): boolean {
+        if (index1 < 0 || index1 >= this.size || index2 < 0 || index2 >= this.size || index1 === index2) {
+            return false
+        }
+        
+        if (index1 > index2) {
+            [index1, index2] = [index2, index1]
+        }
+
+        let node1 = this.getNodeAt(index1)
+        let node2 = this.getNodeAt(index2)
+        let prev1 = this.getNodeAt(index1 - 1)
+        let prev2 = this.getNodeAt(index2 - 1)
+        let next1 = node1.next
+        let next2 = node2.next
+
+        if (node1 === this.head) {
+            this.head = node2
+        }
+        else {
+            prev1!.next = node2
+        }
+
+        if (node2 === this.tail) {
+            this.tail = node1
+        }
+        else {
+            prev2!.next = node1
+        }
+
+        node1.next = next2
+        node2.next = next1
+
+        return true
+    }
+
+    // shuffle the linked list
+    public shuffle(): void {
+        const arr: number[] = [];
+      
+        // Initialize an array of indices from 0 to size - 1
+        for (let i = 0; i < this.size; i++) {
+          arr.push(i);
+        }
+      
+        // Shuffle the indices using the Fisher-Yates shuffle algorithm
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+      
+        // Clear the linked list and add the nodes back in the shuffled order
+        this.clear();
+        arr.forEach((index) => {
+          const data = this.getNodeAt(index)!.data;
+          this.addLast(data);
+        });
+    }
+
+    forEach(callback: (value:T, index: number) => void): void {
+        let current = this.head
+        let index = 0
+        while (current !== null) {
+            callback(current.data, index)
+            current = current.next
+            ++index
+        }
+    }
+
+
+
     // clear the linked list
     clear() {
         this.head = null
@@ -194,11 +313,25 @@ class LinkedList<T> {
         this.size = 0
     }
 
+    // print the linked list
+    print(): void {
+        let current = this.head
+        let str = ''
+        while (current !== null) {
+            str += current.data + ' -> '
+            current = current.next
+        }
+        str += 'null'
+        console.log(str)
+    }
 
 }
 
-
-
+let list = new LinkedList<any>()
+list.addFirst(1)
+list.addFirst('ALLORA')
+list.addLast(2)
+list.print()
 
 
 

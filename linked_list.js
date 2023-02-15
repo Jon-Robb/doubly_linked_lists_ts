@@ -169,11 +169,130 @@ var LinkedList = /** @class */ (function () {
         }
         return array;
     };
+    // remove a node with a given data
+    LinkedList.prototype.remove = function (data) {
+        var index = this.indexOf(data);
+        if (index === -1) {
+            return false;
+        }
+        this.removeAt(index);
+        return true;
+    };
+    // get the first node
+    LinkedList.prototype.getFirst = function () {
+        return this.head;
+    };
+    // get the last node
+    LinkedList.prototype.getLast = function () {
+        return this.tail;
+    };
+    // get the node at a given index
+    LinkedList.prototype.getNodeAt = function (index) {
+        if (index < 0 || index >= this.size) {
+            return null;
+        }
+        var current = this.head;
+        for (var i = 0; i < index; ++i) {
+            current = current.next;
+        }
+        return current;
+    };
+    // reverse the linked list
+    LinkedList.prototype.reverse = function () {
+        var current = this.head;
+        var previous = null;
+        var next = null;
+        while (current !== null) {
+            next = current.next;
+            current.next = previous;
+            previous = current;
+            current = next;
+        }
+        this.tail = this.head;
+        this.head = previous;
+    };
+    // swap two nodes
+    LinkedList.prototype.swapNodes = function (index1, index2) {
+        var _a;
+        if (index1 < 0 || index1 >= this.size || index2 < 0 || index2 >= this.size || index1 === index2) {
+            return false;
+        }
+        if (index1 > index2) {
+            _a = [index2, index1], index1 = _a[0], index2 = _a[1];
+        }
+        var node1 = this.getNodeAt(index1);
+        var node2 = this.getNodeAt(index2);
+        var prev1 = this.getNodeAt(index1 - 1);
+        var prev2 = this.getNodeAt(index2 - 1);
+        var next1 = node1.next;
+        var next2 = node2.next;
+        if (node1 === this.head) {
+            this.head = node2;
+        }
+        else {
+            prev1.next = node2;
+        }
+        if (node2 === this.tail) {
+            this.tail = node1;
+        }
+        else {
+            prev2.next = node1;
+        }
+        node1.next = next2;
+        node2.next = next1;
+        return true;
+    };
+    // shuffle the linked list
+    LinkedList.prototype.shuffle = function () {
+        var _a;
+        var _this = this;
+        var arr = [];
+        // Initialize an array of indices from 0 to size - 1
+        for (var i = 0; i < this.size; i++) {
+            arr.push(i);
+        }
+        // Shuffle the indices using the Fisher-Yates shuffle algorithm
+        for (var i = arr.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            _a = [arr[j], arr[i]], arr[i] = _a[0], arr[j] = _a[1];
+        }
+        // Clear the linked list and add the nodes back in the shuffled order
+        this.clear();
+        arr.forEach(function (index) {
+            var data = _this.getNodeAt(index).data;
+            _this.addLast(data);
+        });
+    };
+    LinkedList.prototype.forEach = function (callback) {
+        var current = this.head;
+        var index = 0;
+        while (current !== null) {
+            callback(current.data, index);
+            current = current.next;
+            ++index;
+        }
+    };
     // clear the linked list
     LinkedList.prototype.clear = function () {
         this.head = null;
         this.tail = null;
         this.size = 0;
     };
+    // print the linked list
+    LinkedList.prototype.print = function () {
+        var current = this.head;
+        var str = '';
+        while (current !== null) {
+            str += current.data + ' -> ';
+            current = current.next;
+        }
+        str += 'null';
+        console.log(str);
+    };
     return LinkedList;
 }());
+var list = new LinkedList();
+list.addFirst(1);
+list.addFirst('ALLORA');
+list.addLast(2);
+list.print();
