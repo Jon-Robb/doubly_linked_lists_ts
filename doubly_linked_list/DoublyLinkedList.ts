@@ -237,13 +237,14 @@ class DoublyLinkedList<T extends ObjectWithToString> {
     }
 
     public toArray(): T[] {
-        const result: T[] = [];
+        // const result: T[] = [];
 
-        let current = this.head;
-        for (const node of this) {
-            result.push(node.data);
-        }
-        return result;
+        // let current = this.head;
+        // for (const node of this) {
+        //     result.push(node.data);
+        // }
+        // return result;
+        return [...this].map(node => node.data);
     }
 
     public remove(data: T): boolean {
@@ -276,6 +277,69 @@ class DoublyLinkedList<T extends ObjectWithToString> {
             current = current.next;
         }
         return false;
+    }
+    
+    public swapNodes(node1 : DoublyLinkedListNode<T>, node2 : DoublyLinkedListNode<T>) : void {
+        if(node1 === node2) {
+            return;
+        }
+        let temp = node1.data;
+        node1.data = node2.data;
+        node2.data = temp;
+
+        // if nodes are adjacent
+        if (node1.next === node2){
+            const prev = node1.prev;
+            const next = node2.next;
+
+            if (prev) {
+                prev.next = node2;
+            }
+            if (next) {
+                next.prev = node1;
+            }
+            node1.prev = node2;
+            node1.next = next;
+            node2.prev = prev;
+            node2.next = node1;
+
+        } else if (node2.next === node1) {
+            const prev = node2.prev;
+            const next = node1.next;
+
+            if (prev) {
+                prev.next = node1;
+            }
+            if (next) {
+                next.prev = node2;
+            }
+            node2.prev = node1;
+            node2.next = next;
+            node1.prev = prev;
+            node1.next = node2;
+        }
+        else {
+            const tempPrev = node1.prev;
+            const tempNext = node1.next;
+            node1.prev = node2.prev;
+            node1.next = node2.next;
+            node2.prev = tempPrev;
+            node2.next = tempNext;
+
+            if(node1.prev) {
+                node1.prev.next = node1;
+            }
+            if(node1.next) {
+                node1.next.prev = node1;
+            }
+            if(node2.prev) {
+                node2.prev.next = node2;
+            }
+            if(node2.next) {
+                node2.next.prev = node2;
+            }
+        }
+        
     }
 
     public getFirstNode(): DoublyLinkedListNode<T> | null {
@@ -387,7 +451,6 @@ class DoublyLinkedList<T extends ObjectWithToString> {
         return newList
     }
 
-
     public toString(): string {
         let current = this.head;
         let str = "";
@@ -416,84 +479,11 @@ class DoublyLinkedList<T extends ObjectWithToString> {
         }
         console.log(result);
     }
-
 }
 
+let list = new DoublyLinkedList<number>();
 
-// //let node = new DoublyLinkedListNode<number>(8)
-// //console.log(node.data)
-// let list = new DoublyLinkedList<number>()
-// list.addFirst(1)
-// list.addFirst(2)
-// list.addFirst(3)
-// console.log("size : " + list.getSize())
-// console.log("is empty : " + list.isEmpty())
-// list.addLast(4)
-// console.log("size : " + list.getSize())
-// console.log("remove first : " + list.removeFirst())
-// console.log("remove last : " + list.removeLast())
-// list.print()
-// list.insertAt(0, 5)
-// list.insertAt(list.getSize(), 6)
-// console.log(list.insertAt(50, 7))
-// list.insertAt(2, 7)
-// list.clear()
-// // list.print()
-// // list.removeAt(0)
-// // list.removeAt(list.getSize() - 1)
-// // console.log(list.removeAt(50))
-// // list.print()
-// // list.removeAt(1)
-// // list.print()
-// console.log("index of 7 : " + list.indexOf(7))
-// console.log("contains 7 : " + list.contains(7))
-// console.log("contains 8 : " + list.contains(8))
-// console.log('index of 8 : ' + list.indexOf(8))
-// console.log(list.toArray())
-// console.log(list.remove(7))
-// console.log(list.remove(8))
-// list.print()
-// // console.log(list.getFirstNode())
-// // console.log(list.getLastNode())
-// // console.log(list.getNodeAt(0))
-// // console.log(list.getNodeAt(list.getSize() - 1))
-// // console.log(list.getNodeAt(50))
-// // console.log(list.getNodeAt(2))
-// list.reverse()
-// list.print()
-// list.shuffle()
-// list.print()
-// list.forEach((data, index) => {
-//     console.log(`index : ${index}, data : ${data}`)
-// })
-// list.print()
-// list.forEachReverse((data, index) => {
-//     console.log(`index : ${index}, data : ${data}`)
-// })
-// for (let i = 0; i < 100; i++) {
-//     list.addLast(i)
-// }
-// list.filter((value, index) => {
-//     return value % 2 === 0
-// }).print()
-// // for (const value of list) {
-// //     console.log(value)
-// // }
-// list.forEachReverse((data, index) => {
-//     console.log(`index : ${index}, data : ${data}`)
-// })
-// list.print()
-// list.shuffle()
-// list.print()
-// console.log(list.clear())
-// list.print()
-
-let list = new DoublyLinkedList<number>()
-for (let i = 0; i < 100; i++) {
-    list.addLast(i)
+for (let i = 0; i < 10; i++) {
+    list.addLast(i);
 }
-list.print()
-console.log(list.getSize())
-list.clear()
-console.log(list.getSize())
-list.print()
+list.print();
