@@ -28,14 +28,30 @@ class DoublyLinkedListIterator {
         this.current = startNode;
     }
     next() {
-        if (this.current === null) {
-            return { done: true, value: null };
-        }
-        else {
-            const value = this.current.data;
+        if (this.current) {
+            const value = this.current;
             this.current = this.current.next;
             return { done: false, value };
         }
+        else {
+            return { done: true, value: null };
+        }
+    }
+}
+class DoublyLinkedListReverseIterator {
+    constructor(node) {
+        this.current = node;
+    }
+    next() {
+        if (this.current === null) {
+            return { done: true, value: null };
+        }
+        const value = this.current;
+        this.current = this.current.prev;
+        return { done: false, value: value };
+    }
+    [Symbol.iterator]() {
+        return this;
     }
 }
 class DoublyLinkedList {
@@ -160,14 +176,12 @@ class DoublyLinkedList {
         return current.data;
     }
     indexOf(data) {
-        let current = this.head;
         let index = 0;
-        while (current !== null) {
-            if (current.data === data) {
+        for (const node of this) {
+            if (node.data === data) {
                 return index;
             }
-            current = current.next;
-            index++;
+            ++index;
         }
         return -1;
     }
@@ -177,9 +191,8 @@ class DoublyLinkedList {
     toArray() {
         const result = [];
         let current = this.head;
-        while (current !== null) {
-            result.push(current.data);
-            current = current.next;
+        for (const node of this) {
+            result.push(node.data);
         }
         return result;
     }
@@ -260,10 +273,8 @@ class DoublyLinkedList {
     shuffle() {
         const arr = [];
         // Initialize an array of indices from 0 to size - 1
-        let node = this.head;
-        while (node !== null) {
+        for (const node of this) {
             arr.push(node.data);
-            node = node.next;
         }
         // Shuffle the indices using the Fisher-Yates shuffle algorithm
         for (let i = arr.length - 1; i > 0; i--) {
@@ -280,31 +291,24 @@ class DoublyLinkedList {
         this.size = newList.size;
     }
     forEach(callback) {
-        let current = this.head;
         let index = 0;
-        while (current !== null) {
-            callback(current.data, index);
-            current = current.next;
-            ++index;
+        for (const node of this) {
+            callback(node.data, index);
+            index++;
         }
     }
     forEachReverse(callback) {
-        let current = this.tail;
         let index = this.size - 1;
-        while (current !== null) {
-            callback(current.data, index);
-            current = current.prev;
-            --index;
+        const reverseIterator = new DoublyLinkedListReverseIterator(this.tail);
+        for (const node of reverseIterator) {
+            callback(node.data, index);
+            index--;
         }
     }
     clear() {
-        let current = this.head;
-        while (current !== null) {
-            const next = current.next;
-            current.data = null;
-            current.next = null;
-            current.prev = null;
-            current = next;
+        for (const node of this) {
+            node.prev = null;
+            node.next = null;
         }
         this.head = null;
         this.tail = null;
@@ -342,64 +346,85 @@ class DoublyLinkedList {
             result += current.next ? " <=> " : "";
             current = current.next;
         }
+        if (result === "") {
+            result = "empty";
+        }
         console.log(result);
     }
 }
-//let node = new DoublyLinkedListNode<number>(8)
-//console.log(node.data)
+// //let node = new DoublyLinkedListNode<number>(8)
+// //console.log(node.data)
+// let list = new DoublyLinkedList<number>()
+// list.addFirst(1)
+// list.addFirst(2)
+// list.addFirst(3)
+// console.log("size : " + list.getSize())
+// console.log("is empty : " + list.isEmpty())
+// list.addLast(4)
+// console.log("size : " + list.getSize())
+// console.log("remove first : " + list.removeFirst())
+// console.log("remove last : " + list.removeLast())
+// list.print()
+// list.insertAt(0, 5)
+// list.insertAt(list.getSize(), 6)
+// console.log(list.insertAt(50, 7))
+// list.insertAt(2, 7)
+// list.clear()
+// // list.print()
+// // list.removeAt(0)
+// // list.removeAt(list.getSize() - 1)
+// // console.log(list.removeAt(50))
+// // list.print()
+// // list.removeAt(1)
+// // list.print()
+// console.log("index of 7 : " + list.indexOf(7))
+// console.log("contains 7 : " + list.contains(7))
+// console.log("contains 8 : " + list.contains(8))
+// console.log('index of 8 : ' + list.indexOf(8))
+// console.log(list.toArray())
+// console.log(list.remove(7))
+// console.log(list.remove(8))
+// list.print()
+// // console.log(list.getFirstNode())
+// // console.log(list.getLastNode())
+// // console.log(list.getNodeAt(0))
+// // console.log(list.getNodeAt(list.getSize() - 1))
+// // console.log(list.getNodeAt(50))
+// // console.log(list.getNodeAt(2))
+// list.reverse()
+// list.print()
+// list.shuffle()
+// list.print()
+// list.forEach((data, index) => {
+//     console.log(`index : ${index}, data : ${data}`)
+// })
+// list.print()
+// list.forEachReverse((data, index) => {
+//     console.log(`index : ${index}, data : ${data}`)
+// })
+// for (let i = 0; i < 100; i++) {
+//     list.addLast(i)
+// }
+// list.filter((value, index) => {
+//     return value % 2 === 0
+// }).print()
+// // for (const value of list) {
+// //     console.log(value)
+// // }
+// list.forEachReverse((data, index) => {
+//     console.log(`index : ${index}, data : ${data}`)
+// })
+// list.print()
+// list.shuffle()
+// list.print()
+// console.log(list.clear())
+// list.print()
 let list = new DoublyLinkedList();
-list.addFirst(1);
-list.addFirst(2);
-list.addFirst(3);
-console.log("size : " + list.getSize());
-console.log("is empty : " + list.isEmpty());
-list.addLast(4);
-console.log("size : " + list.getSize());
-console.log("remove first : " + list.removeFirst());
-console.log("remove last : " + list.removeLast());
-list.print();
-list.insertAt(0, 5);
-list.insertAt(list.getSize(), 6);
-console.log(list.insertAt(50, 7));
-list.insertAt(2, 7);
-// list.print()
-// list.removeAt(0)
-// list.removeAt(list.getSize() - 1)
-// console.log(list.removeAt(50))
-// list.print()
-// list.removeAt(1)
-// list.print()
-console.log("index of 7 : " + list.indexOf(7));
-console.log("contains 7 : " + list.contains(7));
-console.log("contains 8 : " + list.contains(8));
-console.log('index of 8 : ' + list.indexOf(8));
-console.log(list.toArray());
-console.log(list.remove(7));
-console.log(list.remove(8));
-list.print();
-// console.log(list.getFirstNode())
-// console.log(list.getLastNode())
-// console.log(list.getNodeAt(0))
-// console.log(list.getNodeAt(list.getSize() - 1))
-// console.log(list.getNodeAt(50))
-// console.log(list.getNodeAt(2))
-list.reverse();
-list.print();
-list.shuffle();
-list.print();
-list.forEach((data, index) => {
-    console.log(`index : ${index}, data : ${data}`);
-});
-list.print();
-list.forEachReverse((data, index) => {
-    console.log(`index : ${index}, data : ${data}`);
-});
 for (let i = 0; i < 100; i++) {
     list.addLast(i);
 }
-list.filter((value, index) => {
-    return value % 2 === 0;
-}).print();
-for (const value of list) {
-    console.log(value);
-}
+list.print();
+console.log(list.getSize());
+list.clear();
+console.log(list.getSize());
+list.print();
