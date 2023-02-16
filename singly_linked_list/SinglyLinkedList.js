@@ -1,24 +1,24 @@
-var LinkedListNode = /** @class */ (function () {
-    function LinkedListNode(data) {
+var SinglyLinkedListNode = /** @class */ (function () {
+    function SinglyLinkedListNode(data) {
         this.data = data;
         this.next = null;
     }
-    return LinkedListNode;
+    return SinglyLinkedListNode;
 }());
-var LinkedList = /** @class */ (function () {
-    function LinkedList() {
+var SinglyLinkedList = /** @class */ (function () {
+    function SinglyLinkedList() {
         this.head = null;
         this.tail = null;
         this.size = 0;
     }
-    LinkedList.prototype.getSize = function () {
+    SinglyLinkedList.prototype.getSize = function () {
         return this.size;
     };
-    LinkedList.prototype.isEmpty = function () {
+    SinglyLinkedList.prototype.isEmpty = function () {
         return this.size === 0;
     };
-    LinkedList.prototype.addFirst = function (data) {
-        var node = new LinkedListNode(data);
+    SinglyLinkedList.prototype.addFirst = function (data) {
+        var node = new SinglyLinkedListNode(data);
         if (this.isEmpty()) {
             this.head = node;
             this.tail = node;
@@ -29,8 +29,8 @@ var LinkedList = /** @class */ (function () {
         }
         ++this.size;
     };
-    LinkedList.prototype.addLast = function (data) {
-        var node = new LinkedListNode(data);
+    SinglyLinkedList.prototype.addLast = function (data) {
+        var node = new SinglyLinkedListNode(data);
         if (this.isEmpty()) {
             this.head = node;
             this.tail = node;
@@ -43,7 +43,7 @@ var LinkedList = /** @class */ (function () {
         ++this.size;
     };
     // remove first node and return its data
-    LinkedList.prototype.removeFirst = function () {
+    SinglyLinkedList.prototype.removeFirst = function () {
         if (this.isEmpty()) {
             return null;
         }
@@ -65,7 +65,7 @@ var LinkedList = /** @class */ (function () {
         }
     };
     // remove last node and return its data
-    LinkedList.prototype.removeLast = function () {
+    SinglyLinkedList.prototype.removeLast = function () {
         if (this.isEmpty()) {
             return null;
         }
@@ -92,7 +92,7 @@ var LinkedList = /** @class */ (function () {
         }
     };
     // insert a node at a given index
-    LinkedList.prototype.insertAt = function (index, data) {
+    SinglyLinkedList.prototype.insertAt = function (index, data) {
         if (index < 0 || index > this.size) {
             return false;
         }
@@ -108,7 +108,7 @@ var LinkedList = /** @class */ (function () {
             for (var i = 0; i < index - 1; ++i) {
                 current = current.next;
             }
-            var node = new LinkedListNode(data);
+            var node = new SinglyLinkedListNode(data);
             // insert the node
             node.next = current.next;
             // update the next node
@@ -118,7 +118,7 @@ var LinkedList = /** @class */ (function () {
         return true;
     };
     // remove a node at a given index
-    LinkedList.prototype.removeAt = function (index) {
+    SinglyLinkedList.prototype.removeAt = function (index) {
         if (index < 0 || index >= this.size) {
             return null;
         }
@@ -143,7 +143,7 @@ var LinkedList = /** @class */ (function () {
         }
     };
     // find the index of a node with a given data
-    LinkedList.prototype.indexOf = function (data) {
+    SinglyLinkedList.prototype.indexOf = function (data) {
         var current = this.head;
         var index = 0;
         while (current !== null) {
@@ -156,11 +156,11 @@ var LinkedList = /** @class */ (function () {
         return -1;
     };
     // check if a node with a given data exists
-    LinkedList.prototype.contains = function (data) {
+    SinglyLinkedList.prototype.contains = function (data) {
         return this.indexOf(data) !== -1;
     };
     // convert the linked list to an array
-    LinkedList.prototype.toArray = function () {
+    SinglyLinkedList.prototype.toArray = function () {
         var array = [];
         var current = this.head;
         while (current !== null) {
@@ -170,7 +170,7 @@ var LinkedList = /** @class */ (function () {
         return array;
     };
     // remove a node with a given data
-    LinkedList.prototype.remove = function (data) {
+    SinglyLinkedList.prototype.remove = function (data) {
         var index = this.indexOf(data);
         if (index === -1) {
             return false;
@@ -179,15 +179,15 @@ var LinkedList = /** @class */ (function () {
         return true;
     };
     // get the first node
-    LinkedList.prototype.getFirst = function () {
+    SinglyLinkedList.prototype.getFirst = function () {
         return this.head;
     };
     // get the last node
-    LinkedList.prototype.getLast = function () {
+    SinglyLinkedList.prototype.getLast = function () {
         return this.tail;
     };
     // get the node at a given index
-    LinkedList.prototype.getNodeAt = function (index) {
+    SinglyLinkedList.prototype.getNodeAt = function (index) {
         if (index < 0 || index >= this.size) {
             return null;
         }
@@ -198,7 +198,7 @@ var LinkedList = /** @class */ (function () {
         return current;
     };
     // reverse the linked list
-    LinkedList.prototype.reverse = function () {
+    SinglyLinkedList.prototype.reverse = function () {
         var current = this.head;
         var previous = null;
         var next = null;
@@ -212,7 +212,7 @@ var LinkedList = /** @class */ (function () {
         this.head = previous;
     };
     // swap two nodes
-    LinkedList.prototype.swapNodes = function (index1, index2) {
+    SinglyLinkedList.prototype.swapNodes = function (index1, index2) {
         var _a;
         if (index1 < 0 || index1 >= this.size || index2 < 0 || index2 >= this.size || index1 === index2) {
             return false;
@@ -243,7 +243,7 @@ var LinkedList = /** @class */ (function () {
         return true;
     };
     // shuffle the linked list
-    LinkedList.prototype.shuffle = function () {
+    SinglyLinkedList.prototype.shuffle = function () {
         var _a;
         var arr = [];
         // Initialize an array of indices from 0 to size - 1
@@ -258,7 +258,7 @@ var LinkedList = /** @class */ (function () {
             _a = [arr[j], arr[i]], arr[i] = _a[0], arr[j] = _a[1];
         }
         // Clear the linked list and add the nodes back in the shuffled order
-        var newList = new LinkedList();
+        var newList = new SinglyLinkedList();
         arr.forEach(function (data) {
             newList.addLast(data);
         });
@@ -266,7 +266,7 @@ var LinkedList = /** @class */ (function () {
         this.tail = newList.tail;
         this.size = newList.size;
     };
-    LinkedList.prototype.forEach = function (callback) {
+    SinglyLinkedList.prototype.forEach = function (callback) {
         var current = this.head;
         var index = 0;
         while (current !== null) {
@@ -275,8 +275,8 @@ var LinkedList = /** @class */ (function () {
             ++index;
         }
     };
-    LinkedList.prototype.filter = function (predicate) {
-        var newList = new LinkedList();
+    SinglyLinkedList.prototype.filter = function (predicate) {
+        var newList = new SinglyLinkedList();
         this.forEach(function (value, index) {
             if (predicate(value, index)) {
                 newList.addLast(value);
@@ -285,13 +285,13 @@ var LinkedList = /** @class */ (function () {
         return newList;
     };
     // clear the linked list
-    LinkedList.prototype.clear = function () {
+    SinglyLinkedList.prototype.clear = function () {
         this.head = null;
         this.tail = null;
         this.size = 0;
     };
     // print the linked list
-    LinkedList.prototype.print = function () {
+    SinglyLinkedList.prototype.print = function () {
         var current = this.head;
         var str = '';
         while (current !== null) {
@@ -301,9 +301,9 @@ var LinkedList = /** @class */ (function () {
         str += 'null';
         console.log(str);
     };
-    return LinkedList;
+    return SinglyLinkedList;
 }());
-var list = new LinkedList();
+var list = new SinglyLinkedList();
 list.addFirst(1);
 list.addFirst(2);
 list.addFirst(3);

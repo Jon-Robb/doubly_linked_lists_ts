@@ -1,6 +1,6 @@
-class LinkedListNode<T> {
+class SinglyLinkedListNode<T> {
     data: T
-    next: LinkedListNode<T> | null
+    next: SinglyLinkedListNode<T> | null
 
     constructor(data: T) {
         this.data = data
@@ -8,9 +8,9 @@ class LinkedListNode<T> {
     }
 }
 
-class LinkedList<T> {
-    head: LinkedListNode<T> | null
-    tail: LinkedListNode<T> | null
+class SinglyLinkedList<T> {
+    head: SinglyLinkedListNode<T> | null
+    tail: SinglyLinkedListNode<T> | null
     size: number
 
     constructor() {
@@ -28,7 +28,7 @@ class LinkedList<T> {
     }
 
     addFirst(data: T) {
-        const node = new LinkedListNode<T>(data)
+        const node = new SinglyLinkedListNode<T>(data)
         if (this.isEmpty()) {
             this.head = node
             this.tail = node
@@ -40,7 +40,7 @@ class LinkedList<T> {
     }
 
     addLast(data: T) {
-        const node = new LinkedListNode<T>(data)
+        const node = new SinglyLinkedListNode<T>(data)
         if (this.isEmpty()) {
             this.head = node
             this.tail = node
@@ -120,7 +120,7 @@ class LinkedList<T> {
             for (let i = 0; i < index - 1; ++i) {
                 current = current!.next
             }
-            const node = new LinkedListNode<T>(data)
+            const node = new SinglyLinkedListNode<T>(data)
             // insert the node
             node.next = current!.next
             // update the next node
@@ -197,17 +197,17 @@ class LinkedList<T> {
     }
 
     // get the first node
-    getFirst(): LinkedListNode<T> | null {
+    getFirst(): SinglyLinkedListNode<T> | null {
         return this.head
     }
 
     // get the last node
-    getLast(): LinkedListNode<T> | null {
+    getLast(): SinglyLinkedListNode<T> | null {
         return this.tail
     }
 
     // get the node at a given index
-    getNodeAt(index: number): LinkedListNode<T> | null {
+    getNodeAt(index: number): SinglyLinkedListNode<T> | null {
         if (index < 0 || index >= this.size) {
             return null
         }
@@ -221,8 +221,8 @@ class LinkedList<T> {
     // reverse the linked list
     reverse(): void {
         let current = this.head
-        let previous: LinkedListNode<T> | null  = null
-        let next : LinkedListNode<T> | null  = null
+        let previous: SinglyLinkedListNode<T> | null  = null
+        let next : SinglyLinkedListNode<T> | null  = null
 
         while (current !== null) {
             next = current.next
@@ -289,7 +289,7 @@ class LinkedList<T> {
         }
       
         // Clear the linked list and add the nodes back in the shuffled order
-        const newList = new LinkedList<T>();
+        const newList = new SinglyLinkedList<T>();
         arr.forEach((data) => {
             newList.addLast(data);
         });
@@ -309,8 +309,8 @@ class LinkedList<T> {
         }
     }
 
-    filter(predicate: (value : T, index: number) => boolean): LinkedList<T> {
-        const newList = new LinkedList<T>()
+    filter(predicate: (value : T, index: number) => boolean): SinglyLinkedList<T> {
+        const newList = new SinglyLinkedList<T>()
 
         this.forEach((value, index) => {
             if (predicate(value, index)) {
@@ -343,7 +343,7 @@ class LinkedList<T> {
 
 }
 
-let list = new LinkedList<number>()
+let list = new SinglyLinkedList<number>()
 list.addFirst(1)
 list.addFirst(2)
 list.addFirst(3)
