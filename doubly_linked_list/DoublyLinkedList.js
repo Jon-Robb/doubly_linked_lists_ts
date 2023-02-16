@@ -23,6 +23,21 @@ class DoublyLinkedListNode {
         this._prev = node;
     }
 }
+class DoublyLinkedListIterator {
+    constructor(startNode) {
+        this.current = startNode;
+    }
+    next() {
+        if (this.current === null) {
+            return { done: true, value: null };
+        }
+        else {
+            const value = this.current.data;
+            this.current = this.current.next;
+            return { done: false, value };
+        }
+    }
+}
 class DoublyLinkedList {
     constructor() {
         this.head = null;
@@ -34,6 +49,9 @@ class DoublyLinkedList {
     }
     isEmpty() {
         return this.size === 0;
+    }
+    [Symbol.iterator]() {
+        return new DoublyLinkedListIterator(this.head);
     }
     addFirst(data) {
         const newNode = new DoublyLinkedListNode(data);
@@ -382,3 +400,6 @@ for (let i = 0; i < 100; i++) {
 list.filter((value, index) => {
     return value % 2 === 0;
 }).print();
+for (const value of list) {
+    console.log(value);
+}

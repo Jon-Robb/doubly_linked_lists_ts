@@ -34,6 +34,24 @@ class DoublyLinkedListNode<T> {
     }
 }
 
+class DoublyLinkedListIterator<T> implements Iterator<T> {
+    private current: DoublyLinkedListNode<T> | null;
+
+    constructor(startNode: DoublyLinkedListNode<T> | null) {
+        this.current = startNode;
+    }
+
+    public next(): IteratorResult<T> {
+        if (this.current === null) {
+            return { done : true, value : null };
+        } else {
+            const value = this.current.data;
+            this.current = this.current.next;
+            return { done : false, value };
+        }
+    }
+}
+
 class DoublyLinkedList<T> {
     private head: DoublyLinkedListNode<T> | null;
     private tail: DoublyLinkedListNode<T> | null;
@@ -52,6 +70,11 @@ class DoublyLinkedList<T> {
     public isEmpty(): boolean {
         return this.size === 0;
     }
+
+    public [Symbol.iterator](): Iterator<T> {
+        return new DoublyLinkedListIterator<T>(this.head);
+    }
+
 
     public addFirst(data: T): boolean {
         const newNode = new DoublyLinkedListNode<T>(data);
@@ -435,3 +458,6 @@ for (let i = 0; i < 100; i++) {
 list.filter((value, index) => {
     return value % 2 === 0
 }).print()
+for (const value of list) {
+    console.log(value)
+}
