@@ -1,2 +1,2 @@
-# liked_list_ts
-A linked list for typescript 
+# linked_list_ts
+A singly linked list for typescript 
