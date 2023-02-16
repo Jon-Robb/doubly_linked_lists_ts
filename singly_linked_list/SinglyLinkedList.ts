@@ -337,7 +337,7 @@ class SinglyLinkedList<T> {
 
 
     // clear the linked list
-    clear() {
+    clear(): void {
         this.head = null
         this.tail = null
         this.size = 0

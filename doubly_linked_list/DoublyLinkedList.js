@@ -47,6 +47,7 @@ class DoublyLinkedList {
             this.head = newNode;
         }
         ++this.size;
+        return true;
     }
     addLast(data) {
         const newNode = new DoublyLinkedListNode(data);
@@ -60,6 +61,7 @@ class DoublyLinkedList {
             this.tail = newNode;
         }
         ++this.size;
+        return true;
     }
     removeFirst() {
         if (this.isEmpty()) {
@@ -100,55 +102,44 @@ class DoublyLinkedList {
             return false;
         }
         if (index === 0) {
-            this.addFirst(data);
+            return this.addFirst(data);
         }
-        else if (index === this.size) {
-            this.addLast(data);
+        if (index === this.size) {
+            return this.addLast(data);
         }
-        else {
-            const newNode = new DoublyLinkedListNode(data);
-            let current = this.head;
-            // find the node at the index
-            for (let i = 0; i < index - 1; i++) {
-                current = current.next;
-            }
-            // insert the new node switching the pointers
-            const nextNode = current.next;
-            current.next = newNode;
-            newNode.prev = current;
-            newNode.next = nextNode;
-            nextNode.prev = newNode;
-            ++this.size;
-        }
+        const node = new DoublyLinkedListNode(data);
+        const current = this.getNodeAt(index);
+        const prev = current.prev;
+        node.prev = prev;
+        node.next = current;
+        current.prev = node;
+        prev.next = node;
+        ++this.size;
         return true;
     }
     removeAt(index) {
         if (index < 0 || index >= this.size) {
             return null;
         }
-        let removedNode = null;
-        if (index === 0) {
-            removedNode = this.head;
-            this.head = this.head.next;
-            this.head.prev = null;
-        }
-        else if (index === this.size - 1) {
-            removedNode = this.tail;
-            this.tail = this.tail.prev;
-            this.tail.next = null;
+        let current = this.getNodeAt(index);
+        const prev = current.prev;
+        const next = current.next;
+        if (current === this.head) {
+            this.head = next;
         }
         else {
-            let current = this.head;
-            for (let i = 0; i < index - 1; i++) {
-                current = current.next;
-            }
-            removedNode = current.next;
-            const nextNode = removedNode.next;
-            current.next = nextNode;
-            nextNode.prev = current;
+            prev.next = next;
+            current.prev = null;
+        }
+        if (current === this.tail) {
+            this.tail = prev;
+        }
+        else {
+            next.prev = prev;
+            current.next = null;
         }
         --this.size;
-        return removedNode.data;
+        return current.data;
     }
     indexOf(data) {
         let current = this.head;
@@ -209,6 +200,98 @@ class DoublyLinkedList {
         }
         return false;
     }
+    getFirstNode() {
+        return this.head;
+    }
+    getLastNode() {
+        return this.tail;
+    }
+    getNodeAt(index) {
+        if (index < 0 || index >= this.size) {
+            return null;
+        }
+        let current;
+        if (index <= this.size / 2) {
+            current = this.head;
+            for (let i = 0; i < index; i++) {
+                current = current.next;
+            }
+        }
+        else {
+            current = this.tail;
+            for (let i = this.size - 1; i > index; i--) {
+                current = current.prev;
+            }
+        }
+        return current;
+    }
+    reverse() {
+        if (this.size <= 1) {
+            return;
+        }
+        let current = this.head;
+        this.head = this.tail;
+        this.tail = current;
+        while (current) {
+            const next = current.next;
+            current.next = current.prev;
+            current.prev = next;
+            current = next;
+        }
+    }
+    shuffle() {
+        const arr = [];
+        // Initialize an array of indices from 0 to size - 1
+        let node = this.head;
+        while (node !== null) {
+            arr.push(node.data);
+            node = node.next;
+        }
+        // Shuffle the indices using the Fisher-Yates shuffle algorithm
+        for (let i = arr.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        // Clear the linked list and add the nodes back in the shuffled order
+        const newList = new DoublyLinkedList();
+        arr.forEach((data) => {
+            newList.addLast(data);
+        });
+        this.head = newList.head;
+        this.tail = newList.tail;
+        this.size = newList.size;
+    }
+    forEach(callback) {
+        let current = this.head;
+        let index = 0;
+        while (current !== null) {
+            callback(current.data, index);
+            current = current.next;
+            ++index;
+        }
+    }
+    forEachReverse(callback) {
+        let current = this.tail;
+        let index = this.size - 1;
+        while (current !== null) {
+            callback(current.data, index);
+            current = current.prev;
+            --index;
+        }
+    }
+    clear() {
+        let current = this.head;
+        while (current !== null) {
+            const next = current.next;
+            current.data = null;
+            current.next = null;
+            current.prev = null;
+            current = next;
+        }
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+    }
     toString() {
         let current = this.head;
         let str = "";
@@ -267,3 +350,20 @@ console.log(list.toArray());
 console.log(list.remove(7));
 console.log(list.remove(8));
 list.print();
+// console.log(list.getFirstNode())
+// console.log(list.getLastNode())
+// console.log(list.getNodeAt(0))
+// console.log(list.getNodeAt(list.getSize() - 1))
+// console.log(list.getNodeAt(50))
+// console.log(list.getNodeAt(2))
+list.reverse();
+list.print();
+list.shuffle();
+list.print();
+list.forEach((data, index) => {
+    console.log(`index : ${index}, data : ${data}`);
+});
+list.print();
+list.forEachReverse((data, index) => {
+    console.log(`index : ${index}, data : ${data}`);
+});
