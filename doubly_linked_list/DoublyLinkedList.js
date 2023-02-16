@@ -292,6 +292,15 @@ class DoublyLinkedList {
         this.tail = null;
         this.size = 0;
     }
+    filter(predicate) {
+        const newList = new DoublyLinkedList();
+        this.forEach((value, index) => {
+            if (predicate(value, index)) {
+                newList.addLast(value);
+            }
+        });
+        return newList;
+    }
     toString() {
         let current = this.head;
         let str = "";
@@ -367,3 +376,9 @@ list.print();
 list.forEachReverse((data, index) => {
     console.log(`index : ${index}, data : ${data}`);
 });
+for (let i = 0; i < 100; i++) {
+    list.addLast(i);
+}
+list.filter((value, index) => {
+    return value % 2 === 0;
+}).print();

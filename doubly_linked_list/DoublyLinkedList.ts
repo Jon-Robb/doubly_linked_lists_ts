@@ -301,7 +301,7 @@ class DoublyLinkedList<T> {
         this.head = newList.head;
         this.tail = newList.tail;
         this.size = newList.size;
-        
+
     }
 
     public forEach(callback: (data: T, index: number) => void): void {
@@ -339,7 +339,16 @@ class DoublyLinkedList<T> {
         this.size = 0;
     }
 
+    public filter(predicate: (value: T, index: number) => boolean): DoublyLinkedList<T> {
+        const newList = new DoublyLinkedList<T>()
 
+        this.forEach((value, index) => {
+            if (predicate(value, index)) {
+                newList.addLast(value)
+            }
+        })
+        return newList
+    }
 
 
     public toString(): string {
@@ -420,3 +429,9 @@ list.print()
 list.forEachReverse((data, index) => {
     console.log(`index : ${index}, data : ${data}`)
 })
+for (let i = 0; i < 100; i++) {
+    list.addLast(i)
+}
+list.filter((value, index) => {
+    return value % 2 === 0
+}).print()
