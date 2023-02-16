@@ -171,12 +171,27 @@ var SinglyLinkedList = /** @class */ (function () {
     };
     // remove a node with a given data
     SinglyLinkedList.prototype.remove = function (data) {
-        var index = this.indexOf(data);
-        if (index === -1) {
-            return false;
+        var previous = null;
+        var current = this.head;
+        while (current) {
+            if (current.data === data) {
+                if (current === this.head) {
+                    this.head = current.next;
+                }
+                else if (current === this.tail) {
+                    this.tail = previous;
+                    previous.next = null;
+                }
+                else {
+                    previous.next = current.next;
+                }
+                this.size--;
+                return true;
+            }
+            previous = current;
+            current = current.next;
         }
-        this.removeAt(index);
-        return true;
+        return false;
     };
     // get the first node
     SinglyLinkedList.prototype.getFirst = function () {
@@ -337,5 +352,8 @@ console.log(list.isEmpty());
 list.filter(function (value, index) {
     return value % 2 === 0;
 }).print();
-list.clear();
+//list.clear()
+list.print();
+list.remove(5);
+list.remove(10);
 list.print();

@@ -188,13 +188,27 @@ class SinglyLinkedList<T> {
 
     // remove a node with a given data
     remove(data: T): boolean {
-        const index = this.indexOf(data)
-        if (index === -1) {
-            return false
+        let previous : SinglyLinkedListNode<T> | null  = null
+        let current = this.head
+        while (current) {
+          if (current.data === data) {
+            if (current === this.head) {
+              this.head = current.next
+            } else if (current === this.tail) {
+              this.tail = previous!
+              previous!.next = null
+            } else {
+              previous!.next = current.next
+            }
+            this.size--
+            return true
+          }
+          previous = current
+          current = current.next
         }
-        this.removeAt(index)
-        return true
-    }
+        return false
+      }
+      
 
     // get the first node
     getFirst(): SinglyLinkedListNode<T> | null {
@@ -377,8 +391,12 @@ console.log(list.isEmpty())
 list.filter((value, index) => {
     return value % 2 === 0
 }).print()
-list.clear()
+//list.clear()
 list.print()
+list.remove(5)
+list.remove(10)
+list.print()
+
 
 
 
