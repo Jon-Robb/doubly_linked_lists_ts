@@ -221,8 +221,8 @@ class LinkedList<T> {
     // reverse the linked list
     reverse(): void {
         let current = this.head
-        let previous = null
-        let next = null
+        let previous: LinkedListNode<T> | null  = null
+        let next : LinkedListNode<T> | null  = null
 
         while (current !== null) {
             next = current.next
