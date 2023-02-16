@@ -245,11 +245,12 @@ var LinkedList = /** @class */ (function () {
     // shuffle the linked list
     LinkedList.prototype.shuffle = function () {
         var _a;
-        var _this = this;
         var arr = [];
         // Initialize an array of indices from 0 to size - 1
-        for (var i = 0; i < this.size; i++) {
-            arr.push(i);
+        var node = this.head;
+        while (node !== null) {
+            arr.push(node.data);
+            node = node.next;
         }
         // Shuffle the indices using the Fisher-Yates shuffle algorithm
         for (var i = arr.length - 1; i > 0; i--) {
@@ -257,11 +258,13 @@ var LinkedList = /** @class */ (function () {
             _a = [arr[j], arr[i]], arr[i] = _a[0], arr[j] = _a[1];
         }
         // Clear the linked list and add the nodes back in the shuffled order
-        this.clear();
-        arr.forEach(function (index) {
-            var data = _this.getNodeAt(index).data;
-            _this.addLast(data);
+        var newList = new LinkedList();
+        arr.forEach(function (data) {
+            newList.addLast(data);
         });
+        this.head = newList.head;
+        this.tail = newList.tail;
+        this.size = newList.size;
     };
     LinkedList.prototype.forEach = function (callback) {
         var current = this.head;
@@ -271,6 +274,15 @@ var LinkedList = /** @class */ (function () {
             current = current.next;
             ++index;
         }
+    };
+    LinkedList.prototype.filter = function (predicate) {
+        var newList = new LinkedList();
+        this.forEach(function (value, index) {
+            if (predicate(value, index)) {
+                newList.addLast(value);
+            }
+        });
+        return newList;
     };
     // clear the linked list
     LinkedList.prototype.clear = function () {
@@ -293,6 +305,37 @@ var LinkedList = /** @class */ (function () {
 }());
 var list = new LinkedList();
 list.addFirst(1);
-list.addFirst('ALLORA');
-list.addLast(2);
+list.addFirst(2);
+list.addFirst(3);
+list.addFirst(4);
+list.addFirst(5);
+list.print();
+list.addLast(6);
+list.print();
+console.log(list.insertAt(2, 3));
+list.print();
+console.log(list.indexOf(6));
+console.log(list.contains(6));
+console.log(list.removeAt(3));
+console.log(list.remove(6));
+list.print();
+list.forEach(function (value, index) {
+    console.log(value, index);
+});
+console.log(list.toArray());
+console.log(list.getFirst());
+console.log(list.getLast());
+console.log(list.getNodeAt(3));
+list.reverse();
+list.print();
+list.swapNodes(0, 3);
+list.print();
+list.shuffle();
+list.print();
+console.log(list.getSize());
+console.log(list.isEmpty());
+list.filter(function (value, index) {
+    return value % 2 === 0;
+}).print();
+list.clear();
 list.print();

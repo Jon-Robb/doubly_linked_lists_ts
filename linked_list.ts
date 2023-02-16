@@ -248,8 +248,8 @@ class LinkedList<T> {
         let node2 = this.getNodeAt(index2)
         let prev1 = this.getNodeAt(index1 - 1)
         let prev2 = this.getNodeAt(index2 - 1)
-        let next1 = node1.next
-        let next2 = node2.next
+        let next1 = node1!.next
+        let next2 = node2!.next
 
         if (node1 === this.head) {
             this.head = node2
@@ -265,19 +265,21 @@ class LinkedList<T> {
             prev2!.next = node1
         }
 
-        node1.next = next2
-        node2.next = next1
+        node1!.next = next2
+        node2!.next = next1
 
         return true
     }
 
     // shuffle the linked list
     public shuffle(): void {
-        const arr: number[] = [];
+        const arr: T[] = [];
       
         // Initialize an array of indices from 0 to size - 1
-        for (let i = 0; i < this.size; i++) {
-          arr.push(i);
+        let node = this.head;
+        while (node !== null) {
+          arr.push(node.data);
+          node = node.next;
         }
       
         // Shuffle the indices using the Fisher-Yates shuffle algorithm
@@ -287,11 +289,14 @@ class LinkedList<T> {
         }
       
         // Clear the linked list and add the nodes back in the shuffled order
-        this.clear();
-        arr.forEach((index) => {
-          const data = this.getNodeAt(index)!.data;
-          this.addLast(data);
+        const newList = new LinkedList<T>();
+        arr.forEach((data) => {
+            newList.addLast(data);
         });
+        this.head = newList.head;
+        this.tail = newList.tail;
+        this.size = newList.size;
+
     }
 
     forEach(callback: (value:T, index: number) => void): void {
@@ -302,6 +307,17 @@ class LinkedList<T> {
             current = current.next
             ++index
         }
+    }
+
+    filter(predicate: (value : T, index: number) => boolean): LinkedList<T> {
+        const newList = new LinkedList<T>()
+
+        this.forEach((value, index) => {
+            if (predicate(value, index)) {
+                newList.addLast(value)
+            }
+        })
+        return newList
     }
 
 
@@ -327,10 +343,41 @@ class LinkedList<T> {
 
 }
 
-let list = new LinkedList<any>()
+let list = new LinkedList<number>()
 list.addFirst(1)
-list.addFirst('ALLORA')
-list.addLast(2)
+list.addFirst(2)
+list.addFirst(3)
+list.addFirst(4)
+list.addFirst(5)
+list.print()
+list.addLast(6)
+list.print()
+console.log(list.insertAt(2, 3))
+list.print()
+console.log(list.indexOf(6))
+console.log(list.contains(6))
+console.log(list.removeAt(3))
+console.log(list.remove(6))
+list.print()
+list.forEach((value, index) => {
+    console.log(value, index)
+})
+console.log(list.toArray())
+console.log(list.getFirst())
+console.log(list.getLast())
+console.log(list.getNodeAt(3))
+list.reverse()
+list.print()
+list.swapNodes(0, 3)
+list.print()
+list.shuffle()
+list.print()
+console.log(list.getSize())
+console.log(list.isEmpty())
+list.filter((value, index) => {
+    return value % 2 === 0
+}).print()
+list.clear()
 list.print()
 
 
