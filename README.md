@@ -1,4 +1,4 @@
-*** This project was made using OpenAi's ChatGPT and Copilot. *** 
+*** This project was made using OpenAi's ChatGPT and Copilot. 
 
 
 # Doubly-Linked list typescript class
