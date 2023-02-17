@@ -1,4 +1,2 @@
 rulesets:
-  - jsx-a11y
-  - jsx-react
-  - react-best-practices
+  - typescript-best-practices
