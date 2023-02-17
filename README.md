@@ -1,8 +1,8 @@
 ### This project was made using OpenAi's ChatGPT and Copilot.
 
-# Implementing different types of linked list :
 
-# Only the doubly linked list done so far : 
+# Doubly-Linked list typescript class
+
 
 ## DoublyLinkedListNode<T>
 This class represents a single node in a doubly linked list. It has properties for the data it contains, as well as references to the previous and next nodes in the list.
