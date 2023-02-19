@@ -79,7 +79,7 @@ class DoublyLinkedListReverseIterator<T> implements IterableIterator<DoublyLinke
 interface ObjectWithToString {
     toString(): string;
 }
-class DoublyLinkedList<T extends ObjectWithToString> {
+class DoublyLinkedList<T> {
     private head: DoublyLinkedListNode<T> | null;
     private tail: DoublyLinkedListNode<T> | null;
     private size: number;
@@ -462,32 +462,32 @@ class DoublyLinkedList<T extends ObjectWithToString> {
         return newList
     }
 
-    public toString(): string {
-        let current = this.head;
-        let str = "";
-        while (current) {
-            if (typeof current.data === "object" && current.data !== null && !("toString" in current.data)) {
-                str += `[${typeof current.data}] `;
-            } else {
-                str += `${current === this.head ? "head" : ""}${current === this.tail ? "tail" : ""}`;
-                str += `(${current.data}) `;
-            }
-            current = current.next;
-        }
-        return str;
-    }
+    // public toString(): string {
+    //     let current = this.head;
+    //     let str = "";
+    //     while (current) {
+    //         if (typeof current.data === "object" && current.data !== null && !("toString" in current.data)) {
+    //             str += `[${typeof current.data}] `;
+    //         } else {
+    //             str += `${current === this.head ? "head" : ""}${current === this.tail ? "tail" : ""}`;
+    //             str += `(${current.data}) `;
+    //         }
+    //         current = current.next;
+    //     }
+    //     return str;
+    // }
 
-    public print(): void {
-        let current = this.head;
-        let result = "";
-        while (current) {
-            result += current === this.head ? `head(${current.data.toString()})` : current === this.tail ? `tail(${current.data.toString()})` : current.data.toString();
-            result += current.next ? " <=> " : "";
-            current = current.next;
-        }
-        if (result === "") {
-            result = "empty";
-        }
-        console.log(result);
-    }
+    // public print(): void {
+    //     let current = this.head;
+    //     let result = "";
+    //     while (current) {
+    //         result += current === this.head ? `head(${current.data.toString()})` : current === this.tail ? `tail(${current.data.toString()})` : current.data.toString();
+    //         result += current.next ? " <=> " : "";
+    //         current = current.next;
+    //     }
+    //     if (result === "") {
+    //         result = "empty";
+    //     }
+    //     console.log(result);
+    // }
 }
